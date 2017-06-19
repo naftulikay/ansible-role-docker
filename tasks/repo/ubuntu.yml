@@ -1,0 +1,27 @@
+---
+- name: refresh apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: install kernel extras for aufs support
+  apt: name=linux-image-extra-virtual state=present cache_valid_time=3600
+  when: os_release == "trusty" and not dind
+
+- name: install apt https support
+  apt: name={{ item }} state=present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+
+- name: install apt signing key
+  apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    keyserver: keyserver.ubuntu.com
+    state: present
+
+- name: install apt repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ os_release }} stable
+    filename: docker.list
+    update_cache: true
+    state: present

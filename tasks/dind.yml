@@ -1,0 +1,16 @@
+---
+- name: set docker host to dind
+  copy:
+    content: |-
+      #!/bin/sh
+      export DOCKER_HOST=tcp://docker:2375
+    dest: /etc/profile.d/99-docker-in-docker.sh
+    mode: "0755"
+    owner: root
+    group: root
+  register: dind_profile_result
+  when: ansible_virtualization_type == "docker"
+
+- name: remove dind profile
+  file: name=/etc/profile.d/99-docker.sh state=absent
+  when: ansible_virtualization_type != "docker"

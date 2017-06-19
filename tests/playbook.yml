@@ -1,0 +1,17 @@
+---
+- name: role
+  hosts: all
+  become: true
+  roles: [docker]
+
+- name: test
+  hosts: all
+  become: true
+  roles:
+    - role: degoss
+      degoss_debug: true
+      degoss_no_clean: true
+      goss_file: goss.yml
+      goss_addtl_dirs: [goss.d/]
+      goss_env_vars:
+        is_docker: "{{ ansible_virtualization_type == \"docker\" | string | lower }}"

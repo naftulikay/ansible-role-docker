@@ -1,0 +1,48 @@
+---
+# set facts to reliably determine os
+- name: discover operating system
+  include: discover/os.yml
+
+# discover whether systemd or not
+- name: discover systemd
+  include: discover/systemd.yml
+
+# discover whether docker in docker
+- name: discover docker in docker
+  include: discover/dind.yml
+
+# load per-os and per distro variables
+- name: load variables
+  include_vars: "{{ var_loop_item }}"
+  with_items:
+    - "{{ os_name }}/common.yml"
+    - "{{ os_name }}/{{ os_release }}.yml"
+  loop_control: { loop_var: var_loop_item }
+
+# install redhat repository
+- name: install redhat repository
+  include: repo/redhat.yml
+  when: os_name == "redhat"
+
+# install ubuntu repository
+- name: install ubuntu repository
+  include: repo/ubuntu.yml
+  when: os_name == "ubuntu"
+
+# install package
+- name: install docker
+  package: name=docker-ce state=present
+
+# if we are running in a docker container
+- name: include docker-in-docker tasks
+  include: dind.yml
+  when: dind
+
+# manage service
+- name: start and enable docker
+  service: name=docker state=started enabled=true
+  when: not (dind | bool)
+
+- name: stop and disable docker
+  service: name=docker state=stopped enabled=false
+  when: dind | bool
