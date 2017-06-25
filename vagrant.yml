@@ -1,22 +1,7 @@
 ---
 - hosts: all
   become: true
-  roles: [vagrant-base]
+  roles: [docker, vagrant-base]
   tasks:
-    - name: install docker repository
-      yum_repository:
-        name: docker
-        description: Docker CE Stable - $basearch
-        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
-        enabled: true
-        gpgcheck: true
-        gpgkey: https://download.docker.com/linux/centos/gpg
-
-    - name: install docker
-      package: name=docker-ce state=present
-
     - name: ensure user is in docker group
       user: name=vagrant append=true groups=docker
-
-    - name: ensure docker started
-      service: name=docker state=started enabled=true
