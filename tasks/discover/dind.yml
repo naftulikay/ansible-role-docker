@@ -1,0 +1,9 @@
+---
+- name: establish docker in docker status
+  set_fact:
+    dind: |-
+      {% if ansible_virtualization_type == "docker" -%}
+        true
+      {%- else -%}
+        false
+      {%- endif %}
