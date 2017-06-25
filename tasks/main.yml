@@ -38,6 +38,11 @@
   include: dind.yml
   when: dind
 
+# optionally modify users to be in the docker group
+- name: include user modification tasks
+  include: users.yml
+  when: docker_users is defined and docker_users is sequence
+
 # manage service
 - name: start and enable docker
   service: name=docker state=started enabled=true

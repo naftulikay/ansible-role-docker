@@ -1,0 +1,6 @@
+---
+user:
+  vagrant:
+    exists: true
+    groups:
+      contain-element: docker
