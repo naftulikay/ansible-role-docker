@@ -1,8 +1,23 @@
 ---
-- name: role
+- name: create user
   hosts: all
   become: true
-  roles: [docker]
+  tasks:
+    - user: name=vagrant state=present
+
+- name: role with string
+  hosts: all
+  become: true
+  roles:
+    - role: docker
+      docker_users: vagrant
+
+- name: role with list
+  hosts: all
+  become: true
+  roles:
+    - role: docker
+      docker_users: [vagrant]
 
 - name: test
   hosts: all
