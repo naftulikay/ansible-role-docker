@@ -1,7 +1,6 @@
 ---
 - hosts: all
   become: true
-  roles: [docker, vagrant-base]
-  tasks:
-    - name: ensure user is in docker group
-      user: name=vagrant append=true groups=docker
+  vars:
+    docker_users: vagrant
+  roles: [vagrant-base, docker]
