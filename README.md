@@ -10,7 +10,10 @@ Officially tested operating systems are listed in the Galaxy manifest.
 
 ## Role Variables
 
-None.
+<dl>
+  <dt><code>docker_users</code></dt>
+  <dd>A string or list of strings of usernames to add to the <code>docker</code> group.</dd>
+<dl>
 
 ## Dependencies
 
@@ -31,6 +34,18 @@ Simply get that Docker dockering:
   become: true
   roles:
     - role: docker
+```
+
+Add the `vagrant` user to the `docker` group:
+
+```yaml
+---
+- name: install
+  hosts: all
+  become: true
+  roles:
+    - role: docker
+      docker_users: vagrant
 ```
 
 ## License
