@@ -1,6 +1,5 @@
 ---
 - hosts: all
   become: true
-  vars:
-    docker_users: vagrant
-  roles: [vagrant-base, docker]
+  roles:
+    - role: vagrant-docker
