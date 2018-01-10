@@ -1,15 +1,15 @@
 ---
 # set facts to reliably determine os
 - name: discover operating system
-  include: discover/os.yml
+  include_tasks: discover/os.yml
 
 # discover whether systemd or not
 - name: discover systemd
-  include: discover/systemd.yml
+  include_tasks: discover/systemd.yml
 
 # discover whether docker in docker
 - name: discover docker in docker
-  include: discover/dind.yml
+  include_tasks: discover/dind.yml
 
 # load per-os and per distro variables
 - name: load variables
@@ -21,12 +21,12 @@
 
 # install redhat repository
 - name: install redhat repository
-  include: repo/redhat.yml
+  include_tasks: repo/redhat.yml
   when: os_name == "redhat"
 
 # install ubuntu repository
 - name: install ubuntu repository
-  include: repo/ubuntu.yml
+  include_tasks: repo/ubuntu.yml
   when: os_name == "ubuntu"
 
 # install package
@@ -35,12 +35,12 @@
 
 # if we are running in a docker container
 - name: include docker-in-docker tasks
-  include: dind.yml
+  include_tasks: dind.yml
   when: dind
 
 # optionally modify users to be in the docker group
 - name: include user modification tasks
-  include: users.yml
+  include_tasks: users.yml
   when: docker_users is defined and docker_users is sequence
 
 # manage service
