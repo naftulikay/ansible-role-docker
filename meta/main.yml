@@ -1,7 +1,6 @@
 ---
 galaxy_info:
   name: docker
-  version: 'v1.1.0'
   author: Naftuli Kay
   description: Install and configure Docker on a system.
 
