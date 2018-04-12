@@ -9,14 +9,14 @@
   hosts: all
   become: true
   roles:
-    - role: docker
+    - role: default
       docker_users: vagrant
 
 - name: role with list
   hosts: all
   become: true
   roles:
-    - role: docker
+    - role: default
       docker_users: [vagrant]
 
 - name: test

@@ -1,8 +1,4 @@
 ---
-# set facts to reliably determine os
-- name: discover operating system
-  include_tasks: discover/os.yml
-
 # discover whether systemd or not
 - name: discover systemd
   include_tasks: discover/systemd.yml
@@ -12,22 +8,34 @@
   include_tasks: discover/dind.yml
 
 # load per-os and per distro variables
-- name: load variables
+- name: load ubuntu variables
+  include_vars: ubuntu/common.yml
+  when: is_ubuntu
+
+- name: load ubuntu trusty variables
+  include_vars: ubuntu/trusty.yml
+  when: is_ubuntu_trusty_derivative
+
+- name: load ubuntu xenial variables
+  include_vars: ubuntu/xenial.yml
+  when: is_ubuntu_xenial_derivative
+
+- name: load rhel variables
   include_vars: "{{ var_loop_item }}"
   with_items:
-    - "{{ os_name }}/common.yml"
-    - "{{ os_name }}/{{ os_release }}.yml"
+    - redhat/common.yml
+    - redhat/rhel7.yml
   loop_control: { loop_var: var_loop_item }
 
 # install redhat repository
 - name: install redhat repository
   include_tasks: repo/redhat.yml
-  when: os_name == "redhat"
+  when: is_redhat_derivative
 
 # install ubuntu repository
 - name: install ubuntu repository
   include_tasks: repo/ubuntu.yml
-  when: os_name == "ubuntu"
+  when: is_ubuntu_derivative
 
 # install package
 - name: install docker
