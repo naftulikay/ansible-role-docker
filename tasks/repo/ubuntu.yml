@@ -4,7 +4,7 @@
 
 - name: install kernel extras for aufs support
   apt: name=linux-image-extra-virtual state=present cache_valid_time=3600
-  when: os_release == "trusty" and not dind
+  when: is_ubuntu_trusty_derivative and not dind
 
 - name: install apt https support
   apt: name={{ item }} state=present
@@ -21,7 +21,7 @@
 
 - name: install apt repository
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ os_release }} stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {% if is_ubuntu_trusty_derivative %}trusty{% else %}xenial{% endif %} stable
     filename: docker.list
     update_cache: true
     state: present
