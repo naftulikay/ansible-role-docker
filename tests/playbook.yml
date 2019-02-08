@@ -1,32 +1,21 @@
 ---
-- name: create user
+- name: prepare
   hosts: all
-  become: true
   tasks:
     - user: name=vagrant state=present
+      become: true
 
-- name: role with string
+- name: build
   hosts: all
-  become: true
   roles:
     - role: default
       docker_users: vagrant
 
-- name: role with list
-  hosts: all
-  become: true
-  roles:
-    - role: default
-      docker_users: [vagrant]
-
 - name: test
   hosts: all
-  become: true
   roles:
-    - role: degoss
-      degoss_debug: true
-      degoss_clean: false
+    - role: naftulikay.degoss
       goss_file: goss.yml
       goss_addtl_dirs: [goss.d]
-      goss_env_vars:
+      goss_variables:
         is_docker: "{{ ansible_virtualization_type == \"docker\" | string | lower }}"

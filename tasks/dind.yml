@@ -10,7 +10,9 @@
     group: root
   register: dind_profile_result
   when: ansible_virtualization_type == "docker"
+  become: true
 
 - name: remove dind profile
   file: name=/etc/profile.d/99-docker.sh state=absent
   when: ansible_virtualization_type != "docker"
+  become: true

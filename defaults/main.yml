@@ -1,1 +1,3 @@
 ---
+docker_apt_keyserver: keyserver.ubuntu.com
+docker_users: []

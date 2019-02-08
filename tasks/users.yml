@@ -1,5 +1,5 @@
 ---
 - name: add user(s) to docker group
   user: name={{ item }} groups=docker append=yes
-  with_flattened:
-    - "{{ docker_users }}"
+  with_flattened: "{{ docker_users }}"
+  become: true
