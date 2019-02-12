@@ -8,3 +8,4 @@ command:
 
   'docker {{ if .Vars.is_docker }}-H tcp://docker:2375{{ end }} run -i --rm ubuntu:bionic true':
     exit-status: 0
+    timeout: 120000
