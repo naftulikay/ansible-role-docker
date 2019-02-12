@@ -1,7 +1,10 @@
 ---
 command:
-  'docker {{ if eq .Env.is_docker "true" }}-H tcp://docker:2375{{ end }} ps':
+  'docker {{ if .Vars.is_docker }}-H tcp://docker:2375{{ end }} ps':
     exit-status: 0
 
   'docker version':
     exit-status: 1
+
+  'docker {{ if .Vars.is_docker }}-H tcp://docker:2375{{ end }} run -i --rm ubuntu:bionic true':
+    exit-status: 0

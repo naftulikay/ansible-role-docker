@@ -2,6 +2,7 @@
 galaxy_info:
   name: docker
   author: Naftuli Kay
+  src: naftulikay.docker
   description: Install and configure Docker on a system.
 
   license: MIT

@@ -1,5 +1,5 @@
 ---
-{{ if eq .Env.is_docker "false" }}
+{{ if not .Vars.is_docker }}
 service:
   docker:
     # if dind, service should be disabled and not started, bug: https://github.com/aelsabbahy/goss/issues/250
